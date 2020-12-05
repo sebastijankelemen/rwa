@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @using System.Web.Optimization
+    @Scripts.Render("~/bundles/layout")
+    @Styles.Render("~/bundles/Style/layout")
+
+    <script>
+        $(function () {
+            $('#loginBtn').click(function () {
+                var username = $('#korisnikoIme').val();
+                var pass = $('#pass').val();
+
+                $.ajax({
+                    url: '@Url.Action("GetLoginRole", "Login")',
+                    data: {
+                        username: username,
+                        pass: pass
+                    },
+                    success: function (msg) {
+                        var role = GetRole();
+                    },
+                    error: function (e) {
+                        console.log(e.statusText);
+                    }
+                        });
+            });
+
+            $('#role').click(function () {
+                GetRole();
+            });
+        });
+
+        function GetRole() {
+             $.ajax({
+                    url: '@Url.Action("GetRole", "Login")',
+                    success: function (msg) {
+                        
+                        if (msg != '-1') {
+                            window.location.replace("@Url.Action("Index", "Drzave")");
+                        }
+                        else {
+                            $('#errorMsg').html('Korisnik s tim imenom i lozinkom ne postoji!');
+                        }
+                        return msg.toString();
+                    },
+                    error: function (e) {
+                        console.log(e.statusText);
+                    }
+                        });
+        }
+    </script>
+</head>
+<body>
+    <div class="jumbotron text-capitalize">AdventureWorks Administracija
+    </div>
+
+    <div class="container" style="width:300px; align-content:center;">
+        <label>Korisnicko Ime: </label>
+        <input type="text" name="korisnikoIme" value="" id="korisnikoIme" class="form-control" />
+        <br />
+        <label>Lozinka: </label>
+        <input type = "password" name = "pass" value = "" id = "pass" class="form-control" />
+        <br />
+        <div id="errorMsg"></div>
+        <br />
+        <a href="#" class="btn btn-dark" style="width:100%;" id="loginBtn">Login</a>
+        <a href="#" class="btn btn-dark d-none" style="width:100%;" id="role">getrole</a>
+    </div>
+</body>
+</html>
+
+<style>
+    .jumbotron {
+        margin:0 auto;
+        margin-top:50px;
+        width:600px;
+        height: 80px;
+        padding-bottom: 40px;
+        padding-top: 40px;
+        background-color: #404040;
+        font-size: large;
+        color: white;
+    }
+</style>

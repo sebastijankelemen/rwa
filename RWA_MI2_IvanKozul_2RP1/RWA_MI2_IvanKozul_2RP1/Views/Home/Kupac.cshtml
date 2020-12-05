@@ -1,0 +1,161 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .container {
+        width: 100% !important;
+    }
+
+    .btn-primary {
+        margin-left: 30px;
+    }
+
+    tbody tr:hover {
+        background-color: #e5e5e5 !important;
+    }
+
+    #kupacBtn {
+        margin-left: 0 !important;
+    }
+    a{
+        margin: 3px;
+    }
+</style>
+
+<script src="~/Scripts/toastr.js"></script>
+<link href="~/Content/toastr.css" rel="stylesheet" />
+
+<script>
+    function Kupac(IDKupac, Ime, Prezime, Email, Telefon, GradID, GradNaziv) {
+        this.IDKupac = IDKupac;
+        this.Ime = Ime;
+        this.Prezime = Prezime;
+        this.Email = Email;
+        this.Telefon = Telefon;
+        this.GradID = GradID;
+        this.GradNaziv = GradNaziv;
+    }
+
+    var Kupci = ko.observableArray();
+
+    $(function () {
+        $('#titleSpan').html('Odabir Kupca');
+        $('#kupacBtn').removeClass('btn-light');
+        $('#kupacBtn').addClass('btn-primary');
+
+        var myParam = location.search.split('naziv=')[1];
+        $.ajax({
+            url: '@Url.Action("Kupci", "Home")',
+            data: {
+                naziv: myParam
+            },
+                   success: function (msg) {
+                       Kupci([]);
+                       var kupacStrings = msg.split('*');
+                       for (var i in kupacStrings) {
+                           var details = kupacStrings[i].split(',');
+                           var k = new Kupac(details[0], details[1], details[2], details[3], details[4], details[5], details[6]);
+                           //alert(details[0] + ' ' + details[1]);
+                           Kupci.push(k);
+                           //alert('pushed');
+                       }
+                            $('.btnUredi').click(function (e) {
+                               e.stopPropagation();
+
+                               var id = $(event.target).attr('text');
+                               var ime = $("[text=ime" + id + "]").val();
+                               var prezime = $("[text=Prezime" + id + "]").val();
+                               var email = $("[text=Email" + id + "]").val();
+                               var telefon = $("[text=Telefon" + id + "]").val();
+                               var gradNaziv = $("[text=GradNaziv" + id + "]").val();
+
+                               if (!ValidateEmail(email)) {
+                                   toastr.warning('Email nije valjan!');
+                               } else {
+
+                               $.ajax({
+                                 url: '@Url.Action("KupacUpdate", "Home")',
+                                 data: {
+                                     id: id,
+                                     ime: ime,
+                                     prezime: prezime,
+                                     email: email,
+                                     telefon: telefon,
+                                     gradNaziv: gradNaziv
+                                 },
+                                 success: function (msg) {
+                                     //console.log(msg);
+                                     toastr.info("Kupac "+ime+" " + prezime+" uspjesno azuriran", "Uspjeh");
+                                    },
+                                error: function (e) {
+                                    console.log(e.statusText);
+                                    }
+                                    });
+
+                               }
+                               //alert(id + ', ' + ime + ', ' + prezime + ', ' + email + ', ' + telefon + ', ' + gradNaziv);
+                           });
+                       var role = SetRights();
+                        },
+                   error: function (e) {
+                        console.log(e.statusText);
+                        }
+        });
+
+        //alert(myParam);
+            ko.applyBindings(Kupci);
+    });
+</script>
+
+<table cellspacing="5">
+    <thead>
+        <tr>
+            <th>Ime</th>
+            <th>Prezime</th>
+            <th>Email</th>
+            <th>Telefon</th>
+            <th>Grad</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: Kupci" id="kupciFrame">
+        <tr>
+            <td>
+                <input type="text" name="name" data-bind="attr: { text: 'ime'+IDKupac}, value: Ime" class="form-control" />
+            </td>
+            <td>
+                <input type="text" name="name" data-bind="attr: { text: 'Prezime'+IDKupac}, value: Prezime" class="form-control" />
+            </td>
+            <td>
+                <input type="text" name="name" data-bind="attr: { text: 'Email'+IDKupac}, value: Email" class="form-control" />
+            </td>
+            <td>
+                <input type="text" name="name" data-bind="attr: { text: 'Telefon'+IDKupac}, value: Telefon" class="form-control" />
+            </td>
+            <td>
+                <select data-bind="attr: { text: 'GradNaziv'+IDKupac}, value: GradNaziv" class="form-control">
+                    <option>Zagreb</option>
+                    <option>Osijek</option>
+                    <option>Pula</option>
+                    <option>Rijeka</option>
+                    <option>Split</option>
+                    <option>Berlin</option>
+                    <option>Dresden</option>
+                    <option>Frankfurt</option>
+                    <option>Sarajevo</option>
+                    <option>Zenica</option>
+                    <option>Mostar</option>
+                    <option>Kakanj</option>
+                    <option>Derventa</option>
+                </select>
+            </td>
+            <td>
+                <a href="#" data-bind="attr: { href: 'Racun?KupacID='+IDKupac}" class="btn btn-dark">Pregled</a>
+                <a href="#" data-bind="attr: { text: IDKupac}" class="btn btn-warning btnUredi">Uredi</a>
+            </td>
+        </tr>
+
+        
+    </tbody>
+</table>
+
+@ViewBag.naziv

@@ -1,0 +1,13 @@
+﻿.formContainer {
+    width: 300px;
+    margin: auto;
+    padding: 15px;
+}
+#lblEmail, #lblLozinka{
+    font-weight:bold;
+}
+.validatori {
+    font-weight: normal;
+    color: red;
+}
+

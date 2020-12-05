@@ -1,0 +1,21 @@
+﻿.container{
+    width:1000px;
+    margin-top:70px;
+}
+#logoutBtn{
+    margin-left:100px;
+}
+.navbar{
+    margin-bottom:15px;
+}
+#errorMsg{
+    color:red;
+}
+.jumbotron{
+    height:80px;
+    padding-bottom:40px;
+    padding-top:40px;
+    background-color:cornflowerblue;
+    font-size:large;
+    color:white;
+}

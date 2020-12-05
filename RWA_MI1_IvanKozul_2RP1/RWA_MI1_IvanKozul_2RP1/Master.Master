@@ -1,0 +1,85 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Master.master.cs" Inherits="RWA_MI1_IvanKozul_2RP1.Master" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <script src="Scripts/jquery-3.0.0.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <script src="Scripts/toastr.js"></script>
+    <link href="Content/toastr.css" rel="stylesheet" />
+    <link href="Content/Style/Master.css" rel="stylesheet" />
+    <script src="Scripts/Sites/Master.js"></script>
+    <title>
+        <asp:Literal ID="lTitle" runat="server"></asp:Literal>
+    </title>
+
+     <asp:ContentPlaceHolder ID="StyleSheets" runat="server">
+        
+    </asp:ContentPlaceHolder>
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body id="masterBody">
+    <form id="form1" runat="server">
+        <div class="container mainContainer">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 text-left">
+                    <span id="lblTitle" class="title" style="font-weight:normal;">
+                        <asp:Literal ID="lTitleHeader" runat="server" meta:resourcekey="lTitleHeaderResource1"></asp:Literal>
+                    </span>
+                </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 text-right" style="padding-top: 5px;">
+                        <asp:LinkButton ID="mailAdminBtn" runat="server" ToolTip="Send E-mail" CssClass="btn btn-sm btn-success" href="mailto:admin@email.com" >ADMIN ADMIN</asp:LinkButton>
+                        <asp:LinkButton ID="btnLogout" runat="server" CssClass="btn btn-sm btn-warning" OnClick="btnLogout_Click" >Logout</asp:LinkButton>
+                </div>
+            </div>
+            <hr style="margin-top:3px;">
+            <div id="navBar">
+                <nav>
+                    <ul>
+                        <li>
+                            <asp:LinkButton ID="linkNewPerson" runat="server" CssClass="btn btn-default navBarBtn" OnClick="linkNewPerson_Click"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
+                                <asp:Label ID="Label1" runat="server" Text="New Person" meta:resourcekey="Label1Resource1"></asp:Label>
+</asp:LinkButton>
+                            <%--<a id="linkNewPerson" class="btn btn-default navBarBtn" onclick=""><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Add new person</a>--%>
+                        </li>
+                        <li>
+                              <asp:LinkButton ID="linkEditPersons" runat="server" CssClass="btn btn-default navBarBtn" OnClick="linkEditPersons_Click"><span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+                                  <asp:Label ID="Label2" runat="server" Text="Edit data" meta:resourcekey="Label2Resource1"></asp:Label>
+</asp:LinkButton>
+                           <%-- <a id="linkEditPersons" class="btn btn-default navBarBtn"><span class="glyphicon glyphicon-share" aria-hidden="true"></span> </a>--%>
+                        </li>
+                        <li>
+                             <asp:LinkButton ID="linkShowPersons" runat="server" CssClass="btn btn-default navBarBtn" OnClick="linkShowPersons_Click"><span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+                                 <asp:Label ID="Label3" runat="server" Text="Person list" meta:resourcekey="Label3Resource1"></asp:Label>
+</asp:LinkButton>
+                            <%--<a id="linkShowPersons" class="btn btn-default navBarBtn"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> Person list</a>--%>
+                        </li>   
+                        <li>
+                             <asp:LinkButton ID="linkSettings" runat="server" CssClass="btn btn-default navBarBtn" OnClick="linkSettings_Click"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                                 <asp:Label ID="Label4" runat="server" Text="Setup" meta:resourcekey="Label4Resource1"></asp:Label>
+</asp:LinkButton>
+                            <%--<a id="linkSettings" class="btn btn-default navBarBtn"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Setup</a>--%>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <hr>
+            <asp:ContentPlaceHolder ID="contentPlaceHolder" runat="server">
+            </asp:ContentPlaceHolder>
+            <footer>
+                <hr>
+                <span id ="footerInfo">
+                    <asp:Literal ID="literalFooter" runat="server"></asp:Literal>
+                </span>
+                <span id ="footerRepoInfo" class="badge">
+                    <asp:Literal ID="literalRepoInfo" runat="server"></asp:Literal>
+                </span>
+            </footer>
+        </div>
+    </form>
+</body>
+</html>

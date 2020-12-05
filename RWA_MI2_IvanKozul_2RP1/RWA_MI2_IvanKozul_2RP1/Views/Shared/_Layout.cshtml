@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @using System.Web.Optimization
+    @Scripts.Render("~/bundles/layout")
+    @Styles.Render("~/bundles/Style/layout")
+
+</head>
+<body>
+    <div class="container">
+        <div class="jumbotron" style="background-color:#333232">
+            AW Manager:
+            <span id="titleSpan"></span>
+        </div>
+        <div class="navbar">
+            <div>
+                <a href="@Url.Action("Index", "Drzave", new { id = UrlParameter.Optional })" class="btn btn-dark border-light" id="drzavaBtn">Drzava i Grad</a>
+                <a href="@Url.Action("Kupac", "Home", new { naziv = "Zagreb" })" class="btn btn-dark border-light" id="kupacBtn">Kupci</a>
+                <a href="@Url.Action("Racun", "Home", new { KupacID = 11 })" class="btn btn-dark border-light" id="racunBtn">Racuni</a>
+                <a href="@Url.Action("Stavka", "Home", new { RacunBroj = "SO44084" })" class="btn btn-dark border-light" id="stavkaBtn">Stavke</a>
+            </div>
+
+            <a id="logoutBtn" href="@Url.Action("Login", "Login", new { id = UrlParameter.Optional })" class="btn btn-warning">Logout</a>
+        </div>
+        @RenderBody()
+    </div>
+    <script>
+        function SetRights() {
+            $.ajax({
+                url: '@Url.Action("GetRole", "Login")',
+                success: function (msg) {
+                    //alert(msg);
+                    if (msg == '1') {
+                        //alert(msg);
+                        $('.btnUredi').addClass('d-none');
+                    }
+                    return msg.toString();
+                },
+                error: function (e) {
+                    console.log(e.statusText);
+                }
+            });
+        }
+    </script>
+    <p style="text-align:center" class="container">
+        @DateTime.Now.Year Ivan Kožul RWA
+    </p>
+
+</body>
+</html>

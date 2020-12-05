@@ -1,0 +1,22 @@
+﻿.osoba {
+    border: 1px solid #dedede;
+    width: 310px;
+    padding: 10px;
+    float: left;
+    margin: 10px;
+}
+td span{
+    font-weight:bold;
+}
+.form-control{
+    margin:5px;
+}
+.form-control.input-sm{
+    margin-bottom: 5px !important;
+}
+.btnForm {
+    width: 85px;
+}
+td {
+    padding-top: 0px;
+}

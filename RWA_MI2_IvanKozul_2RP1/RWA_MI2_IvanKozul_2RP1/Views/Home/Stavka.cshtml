@@ -1,0 +1,70 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .container {
+        width: 100% !important;
+    }
+</style>
+
+<script>
+    var stavke;
+    $(function () {
+        $('#titleSpan').html('Pregled Stavki');
+        $('#stavkaBtn').removeClass('btn-light');
+        $('#stavkaBtn').addClass('btn-primary');
+
+        console.log(location.search.split('RacunBroj=')[1]);
+        var id = location.search.split('RacunBroj=')[1];
+                           $.ajax({
+                                 url: '@Url.Action("GetStavke", "Home")',
+                data: {
+                    brojRacuna: id,
+                },
+                success: function (msg) {
+                    stavke = msg;
+                    MakeGrid(stavke);
+
+                    console.log(stavke);
+                },
+                error: function (e) {
+                    console.log(e.statusText);
+                }
+            });
+    });
+
+    function MakeGrid(stavke) {
+        $("#jsGrid").jsGrid({
+            width: "100%",
+            height: "600px",
+
+            inserting: false,
+            editing: false,
+            sorting: true,
+            paging: true,
+
+            data: JSON.parse(stavke),
+
+            fields: [
+                { name: "Kolicina", type: "text", title: "Kolicina", width:80 },
+                { name: "CijenaPoKomadu", type: "text", title: "PPP" },
+                { name: "PopustUPostocima", type: "text", title: "Popust (%)" },
+                { name: "UkupnaCijena", type: "text", title: "Ukupna Cijena" },
+                { name: "PNaziv", type: "text", title: "Proizvod" },
+                { name: "BrojProizvoda", type: "text", title: "#" },
+                { name: "Boja", type: "text", title: "Boja" },
+                { name: "MinimalnaKolicinaNaSkladistu", type: "text", title: "MKNS" },
+                { name: "CijenaBezPDV", type: "text", title: "Cijena bez PDV" },
+                { name: "PKNaziv", type: "text", title: "Potkategorija" },
+                { name: "KNaziv", type: "text", title: "Kaategorija" }
+                //,
+                // { type: "control" }
+            ]
+        });
+    }
+</script>
+
+
+
+<div id="jsGrid"></div>

@@ -1,0 +1,92 @@
+﻿@model IEnumerable<RWA_MI2_IvanKozul_2RP1.Models.Drzava>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    var viewModel = ko.observableArray();
+    var cities;
+    $(function () {
+        $('#titleSpan').html('Odabir Drzave i Grada');
+        $('#drzavaBtn').removeClass('btn-light');
+        $('#drzavaBtn').addClass('btn-primary');
+
+        $('.btnGradovi').click(function(){
+            var id = $(this).attr('id');
+
+             $.ajax({
+                    url: '@Url.Action("CityList", "Drzave")',
+                    data: {
+                        id:id
+                    },
+                    success: function (msg) {
+                        viewModel([]);
+                        var gradovi = msg.split(',');
+
+                        cities = [];
+                        for (var i in gradovi) {
+                            cities.push({ name: i });
+                            viewModel.push({ name: gradovi[i] });
+                        }
+                        $('.grad').click(function (event) {
+                            var text = $(event.target).text();
+                            location.href = '@ViewBag.ReUrl' + '?naziv=' + text;
+                            @*$.ajax({
+                                url: '@Url.Action("Kupac", "Home")',
+                                data: {
+                                    naziv: text
+                                    },
+                                success: function (msg) {
+                                    alert('@ViewBag.ReUrl' + '?naziv=' + msg);
+
+                                },
+                                error: function (e) {
+                                    console.log(e.statusText);
+                                        }
+                                    });*@
+
+                        });
+                        console.log(viewModel);
+                        $('#GradModal').modal('toggle');
+                    },
+                    error: function (e) {
+                        console.log(e.statusText);
+                    }
+                        });
+
+
+            //location.href = '@ViewBag.ReUrl' + '?id=' + id;
+        });
+        ko.applyBindings(viewModel);
+    });
+</script>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Naziv)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Naziv)
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { id=item.IDDrzava }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.IDDrzava }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.IDDrzava })*@
+
+                <a href="#" class="btn btn-primary btnGradovi" id='@item.IDDrzava'>Gradovi</a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+@(Html.Partial("GradModal"))

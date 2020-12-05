@@ -1,0 +1,29 @@
+﻿
+.tblPrikazOsoba {
+    margin: auto;
+    width: 100%;
+}
+
+    .tblPrikazOsoba tr:not(:first-child) {
+        height: 80px;
+    }
+
+th {
+    font-weight: normal !important;
+    font-size: 1em;
+}
+
+td, th {
+    padding: 5px;
+}
+
+input {
+    width: 120px;
+    padding: 3px;
+    border: 1px solid #ccc;
+}
+.gwInput {
+    width: 120px;
+    padding: 3px;
+    border: 1px solid #ccc;
+}
